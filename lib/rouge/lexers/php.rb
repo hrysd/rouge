@@ -136,7 +136,7 @@ module Rouge
         rule /[^\\{$"]+/, 'Literal.String.Double'
         rule /\\([nrt\"$\\]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2})/,
           'Literal.String.Escape'
-        rule /\$[a-zA-Z_][a-zA-Z0-9_]*(\[\S+\]|->[a-zA-Z_][a-zA-Z0-9_]*)?/
+        rule /\$[a-zA-Z_][a-zA-Z0-9_]*/, 'Name.Variable' #, :interp_dollar
 
         lsi = 'Literal.String.Interpol'
         rule /\{\$\{/, lsi, :interp_double
@@ -157,6 +157,16 @@ module Rouge
         rule /\}/, 'Literal.String.Interpol', :pop!
         mixin :php
       end
+
+      #FIXME Under construction
+      #state :interp_dollar do
+      #  rule /->/, 'Operator'
+      #  rule /\$?[a-zA-Z]*/, 'Name.Variable'
+      #  rule /"/, 'Literal.String.Double'
+      #  mixin :php
+      #  rule /([^->|\$?[a-z_]\w*])\"/i, 'Literal.String.Double', :pop!
+      #  rule /\$?[a-zA-Z_][a-zA-Z0-9_]*[\s\"]*/, 'Name.Variable'
+      #end
     end
   end
 end
