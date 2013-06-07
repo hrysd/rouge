@@ -66,8 +66,7 @@ module Rouge
         rule /\?>/, 'Comment.Preproc', :pop!
 
         # heredocs
-        rule /<<<(')([a-z_]\w*)\1\n.*?\n\2;?\n/im, 'Literal.String.Heredoc'
-        rule /<<<([a-z_]\w*)\n.*?\n\1;?\n/im, 'Literal.String.Heredoc'
+        rule /<<<('?)([a-z_]\w*)\1?\n.*?\n\2;?\n/im, 'Literal.String.Heredoc'
         rule /\s+/, 'Text'
         rule /#.*?\n/, 'Comment.Single'
         rule %r(//.*?\n), 'Comment.Single'
