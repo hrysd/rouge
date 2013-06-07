@@ -64,11 +64,14 @@ module Rouge
 
       state :php do
         rule /\?>/, 'Comment.Preproc', :pop!
+
         # heredocs
-        rule /<<<('?)([a-z_]\w*)\1\n.*?\n\2;?\n/im, 'String'
+        rule /<<<(')([a-z_]\w*)\1\n.*?\n\2;?\n/im, 'Literal.String.Heredoc'
+        rule /<<<([a-z_]\w*)\n.*?\n\1;?\n/im, 'Literal.String.Heredoc'
         rule /\s+/, 'Text'
         rule /#.*?\n/, 'Comment.Single'
         rule %r(//.*?\n), 'Comment.Single'
+
         # empty comment, otherwise seen as the start of a docstring
         rule %r(/\*\*/)
         rule %r(/\*\*.*?\*/)m, 'Literal.String.Doc'
@@ -80,6 +83,7 @@ module Rouge
         rule /[~!%^&*+=\|:.<>\/?@-]+/, 'Operator'
         rule /[\[\]{}();,]+/, 'Punctuation'
         rule /class\b/, 'Keyword', :classname
+
         # anonymous functions
         rule /(function)(\s*)(?=\()/ do
           group 'Keyword'; group 'Text'
